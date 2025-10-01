@@ -1,6 +1,11 @@
 import os
-
 os.environ["APC_ENV"] = r"C:\prdev\envs\sandbox\apc.env"
+
+from apc_hypaship.reqresp.order_response import BookingResponse
+
+
+
+from apc_hypaship.client.apc_client import book_shipment
 from datetime import date, timedelta
 
 import pytest
@@ -38,6 +43,7 @@ def sample_address(sample_contact):
         city="Welling",
         country_code="GB",
         contact=sample_contact,
+        company_name="Test Company",
     )
 
 
@@ -57,3 +63,12 @@ def sample_order(sample_address) -> Order:
 def sample_shipment(sample_order) -> Shipment:
     return Shipment.from_order(sample_order)
 
+
+@pytest.fixture
+def sample_shipment_dict(sample_shipment) -> dict:
+    return sample_shipment.model_dump(by_alias=True, mode="json")
+
+
+@pytest.fixture
+def sample_booking_response(sample_shipment, settings):
+    return book_shipment(sample_shipment, settings, mode=BookingResponse)
