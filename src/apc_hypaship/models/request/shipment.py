@@ -4,7 +4,7 @@ from typing import Literal, Sequence
 from pydantic import Field, model_validator
 from loguru import logger
 
-from apc_hypaship.address import Address
+from apc_hypaship.models.request.address import Address
 from apc_hypaship.config import APCBaseModel
 
 
@@ -39,6 +39,10 @@ class GoodsInfo(APCBaseModel):
     fragile: bool = False
     security: bool = False
     increased_liability: bool = False
+    premium_insurance: bool = False
+    premium: bool = False
+
+
 
 
 class Order(APCBaseModel):

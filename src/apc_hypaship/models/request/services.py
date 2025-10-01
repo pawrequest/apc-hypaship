@@ -2,7 +2,7 @@ from types import MappingProxyType
 
 from pydantic import ConfigDict
 
-from .config import APCBaseModel
+from apc_hypaship.config import APCBaseModel
 
 APC_SERVICES_DICT = dict(
     NEXT_DAY="ND16",
