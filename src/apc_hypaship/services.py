@@ -4,9 +4,15 @@ from pydantic import ConfigDict
 
 from .config import APCBaseModel
 
+APC_SERVICES_DICT = dict(
+    NEXT_DAY="ND16",
+    NEXT_DAY_12="ND12",
+    NEXT_DAY_9="ND09",
+)
+
 
 class ServiceSpec(APCBaseModel):
-    model_config = ConfigDict(extra='ignore')
+    model_config = ConfigDict(extra="ignore")
     Carrier: str
     CollectionDate: str
     Currency: str
