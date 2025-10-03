@@ -8,9 +8,6 @@ wheels/
 
 # venv
 .venv
-.idea
-/.idea
-/.idea/
 *.env
 /docs/build/
 *.log
