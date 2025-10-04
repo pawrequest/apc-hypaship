@@ -2,7 +2,7 @@ from typing import Literal
 
 import httpx
 
-from apc_hypaship.config import APCSettings, apc_settings
+from apc_hypaship.config import APCSettings
 from apc_hypaship.models.response.label_track import Tracks
 from apc_hypaship.models.response.resp import BookingResponse, ServiceAvailabilityResponse
 from apc_hypaship.models.response.shipment import Label
@@ -14,7 +14,7 @@ ResponseMode = Literal['raw'] | Literal['json'] | type
 def make_post(
     url: str,
     data: dict | None = None,
-    settings: APCSettings = apc_settings(),
+    settings: APCSettings = APCSettings.from_env(),
 ) -> httpx.Response:
     headers = settings.headers
     res = httpx.post(url, headers=headers, json=data, timeout=30)
@@ -25,7 +25,7 @@ def make_post(
 def make_get(
     url: str,
     params: dict | None = None,
-    settings: APCSettings = apc_settings(),
+    settings: APCSettings = APCSettings.from_env(),
 ) -> httpx.Response:
     headers = settings.headers
     res = httpx.get(url, headers=headers, params=params, timeout=30)
@@ -35,7 +35,7 @@ def make_get(
 
 def service_available(
     shipment: Shipment,
-    settings: APCSettings = apc_settings(),
+    settings: APCSettings = APCSettings.from_env(),
 ) -> ServiceAvailabilityResponse:
     shipment_dict = shipment.model_dump(by_alias=True, mode='json')
     res = make_post(settings.services_endpoint, shipment_dict)
@@ -44,7 +44,7 @@ def service_available(
 
 def book_shipment(
     shipment: Shipment,
-    settings=apc_settings(),
+    settings: APCSettings = APCSettings.from_env(),
 ) -> BookingResponse:
     shipment_dict = shipment.model_dump(by_alias=True, mode='json')
     res = make_post(url=settings.orders_endpoint, data=shipment_dict, settings=settings)
@@ -53,7 +53,7 @@ def book_shipment(
 
 def get_label(
     shipment_num: str,
-    settings: APCSettings = apc_settings(),
+    settings: APCSettings = APCSettings.from_env(),
 ) -> Label:
     params = {'labelformat': 'PDF'}
     label = make_get(
@@ -67,7 +67,7 @@ def get_label(
 
 def get_tracks(
     shipment_num: str,
-    settings: APCSettings = apc_settings(),
+    settings: APCSettings = APCSettings.from_env(),
 ) -> Tracks:
     res = make_get(url=settings.track_endpoint(shipment_num), settings=settings)
     res = res.json()

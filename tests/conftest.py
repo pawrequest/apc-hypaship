@@ -1,5 +1,8 @@
 import os
-os.environ['APC_ENV'] = r'C:\prdev\envs\sandbox\apc.env'
+import sys
+
+from apc_hypaship.config import APCSettings
+
 
 from apc_hypaship.apc_client import book_shipment
 
@@ -7,13 +10,11 @@ from apc_hypaship.apc_client import book_shipment
 from apc_hypaship.models.response.resp import BookingResponse
 
 
-
 from datetime import date, timedelta
 
 import pytest
 
 from apc_hypaship.models.request.address import Address, Contact
-from apc_hypaship.config import apc_settings
 from apc_hypaship.models.request.services import APC_SERVICES_DICT
 from apc_hypaship.models.request.shipment import GoodsInfo, Order, Shipment, ShipmentDetails
 
@@ -24,8 +25,15 @@ if TEST_DATE.weekday() in (5, 6):
 
 
 @pytest.fixture(scope='session')
-def test_settings():
-    return apc_settings()
+def sample_settings():
+    return APCSettings.from_env('APC_ENV')
+
+
+@pytest.fixture(autouse=True)
+def sandbox_only(sample_settings):
+    if 'training' not in sample_settings.base_url:
+        pytest.skip('Skipping tests outside sandbox environment')
+        sys.exit()
 
 
 @pytest.fixture(scope='session')
@@ -72,6 +80,6 @@ def sample_shipment_dict(sample_shipment) -> dict:
 
 
 @pytest.fixture
-def sample_booking_response(sample_shipment, test_settings) -> BookingResponse:
-    return book_shipment(sample_shipment, test_settings)
+def sample_booking_response(sample_shipment, sample_settings) -> BookingResponse:
+    return book_shipment(sample_shipment, sample_settings)
 

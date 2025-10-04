@@ -3,7 +3,7 @@ from datetime import date, time
 from functools import lru_cache
 from pathlib import Path
 import base64
-from typing import Annotated
+from typing import Annotated, Self
 
 from loguru import logger
 from pydantic import BaseModel, ConfigDict, SecretStr, AliasGenerator, StringConstraints
@@ -24,19 +24,27 @@ def apc_date(d: date) -> str:
     return d.strftime('%d/%m/%Y')
 
 
-def load_env() -> Path:
-    apc_env = Path(os.getenv('APC_ENV'))
-    if not apc_env.exists():
-        raise ValueError('APC_ENV not set correctly')
-    logger.debug(f'Loading APC environment from {apc_env}')
-    return apc_env
+def get_env(env_name: str = 'APC_ENV') -> Path:
+    env = os.getenv(env_name)
+    if not env:
+        raise ValueError(f'{env_name} not set')
+    env_path = Path(env)
+    if not env_path.exists():
+        raise ValueError(f'{env_path} not a valid path')
+    logger.debug(f'Loading environment from {env_path}')
+    return env_path
 
 
 class APCSettings(BaseSettings):
     apc_email: SecretStr
     apc_password: SecretStr
     base_url: str
-    model_config = SettingsConfigDict(env_file=load_env())
+    model_config = SettingsConfigDict()
+
+    @classmethod
+    @lru_cache
+    def from_env(cls, env_name='APC_ENV') -> Self:
+        return cls(_env_file=get_env(env_name))
 
     @property
     def headers(self) -> dict:
@@ -60,11 +68,6 @@ class APCSettings(BaseSettings):
 
     def track_endpoint(self, order_num: str) -> str:
         return self.base_url + f'Tracks/{order_num}.json'
-
-
-@lru_cache
-def apc_settings() -> APCSettings:
-    return APCSettings()
 
 
 class APCBaseModel(BaseModel):
