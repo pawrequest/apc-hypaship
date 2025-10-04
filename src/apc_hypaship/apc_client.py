@@ -2,7 +2,7 @@ from typing import Literal
 
 import httpx
 
-from apc_hypaship.config import APCSettings
+from apc_hypaship.config import APCSettings, APCBaseModel
 from apc_hypaship.models.response.label_track import Tracks
 from apc_hypaship.models.response.resp import BookingResponse, ServiceAvailabilityResponse
 from apc_hypaship.models.response.shipment import Label
@@ -11,67 +11,68 @@ from apc_hypaship.models.request.shipment import Shipment
 ResponseMode = Literal['raw'] | Literal['json'] | type
 
 
-def make_post(
-    url: str,
-    data: dict | None = None,
-    settings: APCSettings = APCSettings.from_env(),
-) -> httpx.Response:
-    headers = settings.headers
-    res = httpx.post(url, headers=headers, json=data, timeout=30)
-    res.raise_for_status()
-    return res
+class APCClient(APCBaseModel):
+    settings: APCSettings
 
+    def do_post(
+        self,
+        *,
+        url: str,
+        data: dict | None = None,
+    ) -> httpx.Response:
+        headers = self.settings.headers
+        res = httpx.post(url, headers=headers, json=data, timeout=30)
+        res.raise_for_status()
+        return res
 
-def make_get(
-    url: str,
-    params: dict | None = None,
-    settings: APCSettings = APCSettings.from_env(),
-) -> httpx.Response:
-    headers = settings.headers
-    res = httpx.get(url, headers=headers, params=params, timeout=30)
-    res.raise_for_status()
-    return res
+    def do_get(
+        self,
+        *,
+        url: str,
+        params: dict | None = None,
+    ) -> httpx.Response:
+        headers = self.settings.headers
+        res = httpx.get(url, headers=headers, params=params, timeout=30)
+        res.raise_for_status()
+        return res
 
+    def fetch_service_available(
+        self,
+        shipment: Shipment,
+    ) -> ServiceAvailabilityResponse:
+        shipment_dict = shipment.model_dump(by_alias=True, mode='json')
+        res = self.do_post(url=self.settings.services_endpoint, data=shipment_dict)
+        return ServiceAvailabilityResponse(**res.json())
 
-def service_available(
-    shipment: Shipment,
-    settings: APCSettings = APCSettings.from_env(),
-) -> ServiceAvailabilityResponse:
-    shipment_dict = shipment.model_dump(by_alias=True, mode='json')
-    res = make_post(settings.services_endpoint, shipment_dict)
-    return ServiceAvailabilityResponse(**res.json())
+    def fetch_book_shipment(
+        self,
+        shipment: Shipment,
+    ) -> BookingResponse:
+        shipment_dict = shipment.model_dump(by_alias=True, mode='json')
+        res = self.do_post(url=self.settings.orders_endpoint, data=shipment_dict)
+        return BookingResponse(**res.json())
 
+    def fetch_label(
+        self,
+        shipment_num: str,
+        format: Literal['PDF'] = 'PDF',
+    ) -> Label:
+        params = {'labelformat': format}
+        label = self.do_get(
+            url=self.settings.one_order_endpoint(shipment_num),
+            params=params,
+        )
+        label = BookingResponse(**label.json())
+        return label.orders.order.label
 
-def book_shipment(
-    shipment: Shipment,
-    settings: APCSettings = APCSettings.from_env(),
-) -> BookingResponse:
-    shipment_dict = shipment.model_dump(by_alias=True, mode='json')
-    res = make_post(url=settings.orders_endpoint, data=shipment_dict, settings=settings)
-    return BookingResponse(**res.json())
+    def fetch_tracks(
+        self,
+        shipment_num: str,
+    ) -> Tracks:
+        res = self.do_get(url=self.settings.track_endpoint(shipment_num))
+        res = res.json()
+        t = res.get('Tracks')
+        return Tracks(**t)
 
-
-def get_label(
-    shipment_num: str,
-    settings: APCSettings = APCSettings.from_env(),
-) -> Label:
-    params = {'labelformat': 'PDF'}
-    label = make_get(
-        url=settings.one_order_endpoint(shipment_num),
-        params=params,
-        settings=settings,
-    )
-    label = BookingResponse(**label.json())
-    return label.orders.order.label
-
-
-def get_tracks(
-    shipment_num: str,
-    settings: APCSettings = APCSettings.from_env(),
-) -> Tracks:
-    res = make_get(url=settings.track_endpoint(shipment_num), settings=settings)
-    res = res.json()
-    t = res.get('Tracks')
-    return Tracks(**t)
 
 

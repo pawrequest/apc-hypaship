@@ -1,4 +1,7 @@
+from base64 import b64decode
 from typing import Union, List
+
+from pydantic import model_validator
 
 from apc_hypaship.config import APCBaseModel
 from apc_hypaship.models.response.address import Address
@@ -9,6 +12,8 @@ from apc_hypaship.models.response.service import GoodsInfo, Rates
 class Label(APCBaseModel):
     content: bytes | None = None
     format: str | None = None
+    decoded: bool = False
+
 
 
 class Item(APCBaseModel):

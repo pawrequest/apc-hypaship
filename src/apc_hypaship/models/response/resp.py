@@ -1,3 +1,7 @@
+import pprint
+
+from loguru import logger
+
 from apc_hypaship.config import APCBaseModel
 from apc_hypaship.models.response.common import Messages
 from apc_hypaship.models.response.service import Services
@@ -13,6 +17,19 @@ class BookingResponse(Response):
     @property
     def order_num(self):
         return self.orders.order.order_number if self.orders and self.orders.order else None
+
+    @property
+    def has_errors(self) -> bool:
+        # todo this is likely broken. was using raw json with 'ErrorFields' but they are not in pydantic model?
+        try:
+            logger.warning(
+                f'Checking for errors in response, likely borked\n{pprint.pformat(self.model_dump())}'
+            )
+            messages = self.orders.order.messages
+            return hasattr(messages, 'ErrorFields')
+        except (AttributeError, KeyError):
+            ...
+        return False
 
 
 class OrdersResponse(APCBaseModel):
