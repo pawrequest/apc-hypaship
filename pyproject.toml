@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "apc-hypaship"
-version = "0.1.5"
+version = "0.1.6"
 description = "Basic API client for APC-Hypaship platform"
 readme = "README.md"
 authors = [
