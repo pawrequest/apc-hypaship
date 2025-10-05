@@ -15,7 +15,6 @@ class Label(APCBaseModel):
     decoded: bool = False
 
 
-
 class Item(APCBaseModel):
     item_number: str | None = None
     tracking_number: str | None = None

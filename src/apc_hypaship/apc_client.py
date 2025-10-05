@@ -1,6 +1,7 @@
 from typing import Literal
 
 import httpx
+from loguru import logger
 
 from apc_hypaship.config import APCSettings, APCBaseModel
 from apc_hypaship.models.response.label_track import Tracks
@@ -50,7 +51,9 @@ class APCClient(APCBaseModel):
     ) -> BookingResponse:
         shipment_dict = shipment.model_dump(by_alias=True, mode='json')
         res = self.do_post(url=self.settings.orders_endpoint, data=shipment_dict)
-        return BookingResponse(**res.json())
+        response = BookingResponse(**res.json())
+        response.raise_for_errors()
+        return response
 
     def fetch_label(
         self,
