@@ -46,6 +46,10 @@ class APCSettings(BaseSettings):
     def from_env(cls, env_name='APC_ENV') -> Self:
         return cls(_env_file=get_env(env_name))
 
+    @classmethod
+    def from_env_file(cls, env_path: Path) -> Self:
+        return cls(_env_file=env_path)
+
     @property
     def headers(self) -> dict:
         usr = self.apc_email.get_secret_value()
