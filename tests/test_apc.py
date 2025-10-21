@@ -3,7 +3,7 @@ import pytest
 from apc_hypaship.config import apc_date
 from apc_hypaship.models.request.shipment import Shipment
 from apc_hypaship.models.response.common import APCException
-from conftest import TEST_DATE, sample_client
+from conftest import TEST_DATE
 
 TEST_DATE_STR = apc_date(TEST_DATE)
 
@@ -37,6 +37,6 @@ def test_bad_postcode(sample_order, sample_client):
     shipment = Shipment.from_order(order)
 
     with pytest.raises(APCException) as excinfo:
-        res = sample_client.fetch_book_shipment(shipment)
+        _ = sample_client.fetch_book_shipment(shipment)
     assert 'Delivery PostalCode' in str(excinfo.value.args[0])
     assert excinfo.value.code == '201'

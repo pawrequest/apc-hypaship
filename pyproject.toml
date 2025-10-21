@@ -22,6 +22,7 @@ dev = [
     "autodoc-pydantic>=2.2.0",
     "myst-parser>=4.0.1",
     "pytest>=8.4.2",
+    "ruff>=0.14.1",
     "sphinx>=8.2.3",
     "sphinx-autodoc-typehints>=3.2.0",
     "sphinx-readme>=1.2.1",
@@ -31,6 +32,6 @@ dev = [
 
 [tool.ruff]
 line-length = 120
-extend-select = ["Q", "RUF100", "UP"]
-flake8-quotes = { inline-quotes = "single", multiline-quotes = "double" }
+lint.extend-select = ["Q", "RUF100", "UP"]
+lint.flake8-quotes = { inline-quotes = "single", multiline-quotes = "double" }
 format.quote-style = "single"

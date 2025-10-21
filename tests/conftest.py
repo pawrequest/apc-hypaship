@@ -7,7 +7,7 @@ from apc_hypaship.config import APCSettings
 from apc_hypaship.apc_client import APCClient
 from apc_hypaship.models.response.resp import BookingResponse
 from apc_hypaship.models.request.address import Address, Contact
-from apc_hypaship.models.request.services import APC_SERVICES_DICT
+from apc_hypaship.models.request.services import APCServiceCode
 from apc_hypaship.models.request.shipment import GoodsInfo, Order, Shipment, ShipmentDetails
 
 TEST_DATE = date.today() + timedelta(days=2)
@@ -57,7 +57,7 @@ def sample_address(sample_contact):
 def sample_order(sample_address) -> Order:
     return Order(
         collection_date=TEST_DATE,
-        product_code=APC_SERVICES_DICT['NEXT_DAY'],
+        product_code=APCServiceCode.NEXT_DAY,
         reference='Test Reference',
         delivery=sample_address,
         goods_info=GoodsInfo(),

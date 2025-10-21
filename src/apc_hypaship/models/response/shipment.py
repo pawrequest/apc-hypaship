@@ -1,7 +1,4 @@
-from base64 import b64decode
-from typing import Union, List
 
-from pydantic import model_validator
 
 from apc_hypaship.config import APCBaseModel
 from apc_hypaship.models.response.address import Address
@@ -33,7 +30,7 @@ class Items(APCBaseModel):
 
 
 class ShipmentDetails(APCBaseModel):
-    items: Union[Item, List[Item]] | None = None
+    items: Item | list[Item] | None = None
     number_of_pieces: str | None = None
     total_weight: str | None = None
     volumetric_weight: str | None = None

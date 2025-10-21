@@ -1,7 +1,6 @@
 from typing import Literal
 
 import httpx
-from loguru import logger
 
 from apc_hypaship.config import APCSettings, APCBaseModel
 from apc_hypaship.models.response.label_track import Tracks
