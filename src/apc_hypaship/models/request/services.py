@@ -6,12 +6,9 @@ from apc_hypaship.config import APCBaseModel
 
 
 class APCServiceCode(StrEnum):
-    NEXT_DAY = 'ND16'
-    NEXT_DAY_12 = 'ND12'
-    NEXT_DAY_9 = 'ND09'
+    PARCEL_1600 = 'APCND16'
     PARCEL_1030 = 'APCND10'
     PARCEL_1200 = 'APCND12'
-    PARCEL_1600 = 'APCND16'
     SATURDAY_PARCEL_1030 = 'APCNS10'
     SATURDAY_PARCEL_1200 = 'APCNS12'
     LIQUID_SERVICE_1030 = 'APCLP10'

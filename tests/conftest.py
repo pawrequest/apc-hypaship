@@ -44,7 +44,7 @@ def sample_contact():
 @pytest.fixture
 def sample_address(sample_contact):
     yield Address(
-        postal_code='DA16 3HU',
+        postal_code='NW2 3EJ',
         address_line_1='25 Bennet Close',
         city='Welling',
         country_code='GB',
@@ -57,7 +57,7 @@ def sample_address(sample_contact):
 def sample_order(sample_address) -> Order:
     return Order(
         collection_date=TEST_DATE,
-        product_code=APCServiceCode.NEXT_DAY,
+        product_code=APCServiceCode.PARCEL_1600,
         reference='Test Reference',
         delivery=sample_address,
         goods_info=GoodsInfo(),
@@ -68,7 +68,7 @@ def sample_order(sample_address) -> Order:
 @pytest.fixture
 def sample_bad_order(sample_order) -> Order:
     order = sample_order.model_copy(deep=True)
-    order.delivery = None
+    order.delivery = None  # type: ignore
     return order
 
 
