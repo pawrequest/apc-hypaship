@@ -21,7 +21,7 @@ class ErrorField(APCBaseModel):
 
 
 class ErrorFields(APCBaseModel):
-    error_field: ErrorField | None = None
+    error_field: ErrorField | list[ErrorField] | None = None
 
 
 class Messages(APCBaseModel):
