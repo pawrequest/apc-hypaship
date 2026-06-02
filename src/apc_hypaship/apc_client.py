@@ -75,6 +75,3 @@ class APCClient(APCBaseModel):
         res = res.json()
         t = res.get('Tracks')
         return Tracks(**t)
-
-
-

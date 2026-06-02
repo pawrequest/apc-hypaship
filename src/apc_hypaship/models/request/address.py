@@ -26,4 +26,3 @@ class Address(APCBaseModel):
 
 class AddressDelivery(Address):
     instructions: str = ''
-

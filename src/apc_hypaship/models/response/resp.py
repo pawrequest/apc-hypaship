@@ -1,5 +1,3 @@
-
-
 from apc_hypaship.config import APCBaseModel
 from apc_hypaship.models.response.common import Messages
 from apc_hypaship.models.response.service import Services
@@ -37,4 +35,3 @@ class ServiceAvailability(APCBaseModel):
 
 class ServiceAvailabilityResponse(APCBaseModel):
     service_availability: ServiceAvailability
-
