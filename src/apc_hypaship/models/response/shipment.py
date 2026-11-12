@@ -1,5 +1,3 @@
-
-
 from apc_hypaship.config import APCBaseModel
 from apc_hypaship.models.response.address import Address
 from apc_hypaship.models.response.common import Messages

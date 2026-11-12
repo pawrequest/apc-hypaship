@@ -32,9 +32,10 @@ class Alert(APCBaseModel):
     def from_exception(cls, e: Exception):
         return cls(message=str(e), type=AlertType.ERROR)
 
+
 async def apc_http_status_alerts(exception: HTTPStatusError) -> list[Alert]:
     error_dict = extract_http_error_message_json(exception)
-    return [Alert(message=f'{error_dict.get('Code')}:  {error_dict.get('Description')}', type=AlertType.ERROR)]
+    return [Alert(message=f'{error_dict.get("Code")}:  {error_dict.get("Description")}', type=AlertType.ERROR)]
 
 
 def extract_http_error_message(exception: HTTPStatusError) -> str:
@@ -53,4 +54,3 @@ def extract_http_error_message_json(exception: HTTPStatusError) -> dict:
     except json.JSONDecodeError:
         logger.warning('Error.response.text is not valid JSON')
         return {'Code': error_string, 'Description': ''}
-

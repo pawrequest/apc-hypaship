@@ -86,6 +86,3 @@ def sample_bad_shipment(sample_bad_order) -> Shipment:
 @pytest.fixture
 def sample_booking_response(sample_shipment, sample_client) -> BookingResponse:
     return sample_client.fetch_book_shipment(sample_shipment)
-
-
-

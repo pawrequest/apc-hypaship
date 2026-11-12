@@ -103,5 +103,3 @@ class ServiceSpec(APCBaseModel):
     Vat: str
     VolumetricWeight: str
     WeightUnit: str
-
-
