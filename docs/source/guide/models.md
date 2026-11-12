@@ -64,10 +64,12 @@ from apc_hypaship.models.request.shipment import Item, Items, ShipmentDetails
 
 details = ShipmentDetails(
     number_of_pieces=2,
-    items=Items(item=[
-        Item(weight=4.5, length=40, width=30, height=20, reference='box-1'),
-        Item(weight=8.0, length=50, width=40, height=30, reference='box-2'),
-    ]),
+    items=Items(
+        item=[
+            Item(weight=4.5, length=40, width=30, height=20, reference='box-1'),
+            Item(weight=8.0, length=50, width=40, height=30, reference='box-2'),
+        ]
+    ),
 )
 ```
 

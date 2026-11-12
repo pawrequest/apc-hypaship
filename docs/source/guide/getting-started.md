@@ -44,7 +44,7 @@ from pathlib import Path
 from apc_hypaship.config import APCSettings
 
 # From an env var holding the *path* to an env file (defaults to APC_ENV).
-settings = APCSettings.from_env()          # reads $APC_ENV
+settings = APCSettings.from_env()  # reads $APC_ENV
 settings = APCSettings.from_env('MY_VAR')  # reads $MY_VAR
 
 # From an explicit env-file path.

@@ -63,7 +63,7 @@ from apc_hypaship.config import APCSettings
 
 # 1. From an env var that holds the path to the env file (default var name: APC_ENV)
 #    e.g. APC_ENV=/path/to/apc.env
-settings = APCSettings.from_env()            # or APCSettings.from_env('MY_VAR')
+settings = APCSettings.from_env()  # or APCSettings.from_env('MY_VAR')
 
 # 2. From an explicit env-file path
 settings = APCSettings.from_env_file(Path('apc.env'))

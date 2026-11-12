@@ -72,8 +72,8 @@ and returns a {class}`~apc_hypaship.models.response.resp.BookingResponse`.
 
 ```python
 booking = client.fetch_book_shipment(shipment)
-print(booking.order_num)                       # 18-digit order number
-print(booking.orders.order.way_bill)           # 22-digit carrier waybill
+print(booking.order_num)  # 18-digit order number
+print(booking.orders.order.way_bill)  # 22-digit carrier waybill
 ```
 
 If Hypaship rejects the order (for example, an invalid postcode), the method raises
@@ -106,7 +106,7 @@ order as printed in Hypaship.
 
 ```python
 tracks = client.fetch_tracks(booking.order_num)
-print(tracks.messages.code)          # 'SUCCESS'
+print(tracks.messages.code)  # 'SUCCESS'
 print(tracks.track.way_bill)
 print(tracks.track.depots)
 ```

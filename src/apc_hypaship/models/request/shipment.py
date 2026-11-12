@@ -1,14 +1,14 @@
 """Request models for booking and service-availability calls."""
 
+from collections.abc import Sequence
 from datetime import date, time
 from typing import Literal
-from collections.abc import Sequence
 
-from pydantic import Field, model_validator
 from loguru import logger
+from pydantic import Field, model_validator
 
-from apc_hypaship.models.request.address import Address
 from apc_hypaship.config import APCBaseModel
+from apc_hypaship.models.request.address import Address
 
 
 class Item(APCBaseModel):

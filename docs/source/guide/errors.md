@@ -23,7 +23,7 @@ from apc_hypaship.error import extract_http_error_message, extract_http_error_me
 try:
     client.fetch_book_shipment(shipment)
 except httpx.HTTPStatusError as e:
-    print(extract_http_error_message(e))       # raw response body
+    print(extract_http_error_message(e))  # raw response body
     print(extract_http_error_message_json(e))  # the 'Messages' dict, e.g. {'Code': ..., 'Description': ...}
 ```
 
@@ -51,9 +51,9 @@ from apc_hypaship.models.response.common import APCException
 try:
     booking = client.fetch_book_shipment(shipment)
 except APCException as e:
-    print(e)                     # 'APC Message 201: ... - Delivery PostalCode: ...'
-    print(e.code)                # '201'
-    print(e.error_fields)        # ErrorField (or list of them)
+    print(e)  # 'APC Message 201: ... - Delivery PostalCode: ...'
+    print(e.code)  # '201'
+    print(e.error_fields)  # ErrorField (or list of them)
     print(e.error_dict_message)  # 'Invalid Postcode'
 ```
 

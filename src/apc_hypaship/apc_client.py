@@ -4,13 +4,13 @@ from typing import Literal
 
 import httpx
 
-from apc_hypaship.config import APCSettings, APCBaseModel
+from apc_hypaship.config import APCBaseModel, APCSettings
+from apc_hypaship.models.request.shipment import Shipment
 from apc_hypaship.models.response.label_track import Tracks
 from apc_hypaship.models.response.resp import BookingResponse, ServiceAvailabilityResponse
 from apc_hypaship.models.response.shipment import Label
-from apc_hypaship.models.request.shipment import Shipment
 
-ResponseMode = Literal['raw'] | Literal['json'] | type
+ResponseMode = Literal['raw', 'json'] | type
 
 
 class APCClient(APCBaseModel):

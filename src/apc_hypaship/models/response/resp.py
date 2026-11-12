@@ -3,7 +3,7 @@
 from apc_hypaship.config import APCBaseModel
 from apc_hypaship.models.response.common import Messages
 from apc_hypaship.models.response.service import Services
-from apc_hypaship.models.response.shipment import Orders, Order
+from apc_hypaship.models.response.shipment import Order, Orders
 
 
 class Response(APCBaseModel):

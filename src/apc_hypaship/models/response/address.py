@@ -1,4 +1,5 @@
-from apc_hypaship.models.request.address import Address as _Address, Contact as _Contact
+from apc_hypaship.models.request.address import Address as _Address
+from apc_hypaship.models.request.address import Contact as _Contact
 
 
 class Contact(_Contact):
