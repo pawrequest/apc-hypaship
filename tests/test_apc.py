@@ -1,9 +1,9 @@
 import pytest
+from conftest import TEST_DATE
 
 from apc_hypaship.config import apc_date
 from apc_hypaship.models.request.shipment import Shipment
 from apc_hypaship.models.response.common import APCException
-from conftest import TEST_DATE
 
 TEST_DATE_STR = apc_date(TEST_DATE)
 

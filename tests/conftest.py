@@ -3,12 +3,12 @@ from datetime import date, timedelta
 
 import pytest
 
-from apc_hypaship.config import APCSettings
 from apc_hypaship.apc_client import APCClient
-from apc_hypaship.models.response.resp import BookingResponse
+from apc_hypaship.config import APCSettings
 from apc_hypaship.models.request.address import Address, Contact
 from apc_hypaship.models.request.services import APCServiceCode
 from apc_hypaship.models.request.shipment import GoodsInfo, Order, Shipment, ShipmentDetails
+from apc_hypaship.models.response.resp import BookingResponse
 
 TEST_DATE = date.today() + timedelta(days=2)
 if TEST_DATE.weekday() in (5, 6):

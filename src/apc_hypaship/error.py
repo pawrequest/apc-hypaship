@@ -1,3 +1,5 @@
+"""User-facing alerts and helpers for reading Hypaship HTTP errors."""
+
 import json
 from enum import StrEnum
 
